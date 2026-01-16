@@ -18,5 +18,5 @@ preferences = {
     ShowTips = true,
     GrabMouse = false,
     UseOpenGL = true,
-    MaxOpenGLTexture = 512,
+    MaxOpenGLTexture = 256,
 }
