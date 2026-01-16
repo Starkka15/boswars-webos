@@ -1,0 +1,22 @@
+-- Default preferences for webOS
+preferences = {
+    VideoWidth = 1024,
+    VideoHeight = 768,
+    VideoFullScreen = true,
+    PlayerName = "Player",
+    FogOfWar = true,
+    ShowCommandKey = true,
+    GroupKeys = "0123456789`",
+    GameSpeed = 30,
+    EffectsEnabled = true,
+    EffectsVolume = 128,
+    MusicEnabled = true,
+    MusicVolume = 128,
+    StratagusTranslation = "",
+    GameTranslation = "",
+    TipNumber = 0,
+    ShowTips = true,
+    GrabMouse = false,
+    UseOpenGL = true,
+    MaxOpenGLTexture = 512,
+}
