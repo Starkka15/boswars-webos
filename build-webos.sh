@@ -25,6 +25,7 @@ CFLAGS="$CFLAGS -Wall -fsigned-char -D_GNU_SOURCE=1 -D_REENTRANT"
 CXXFLAGS="$CFLAGS"
 
 LDFLAGS="-L$PDK/device/lib -L$LUA"
+LDFLAGS="$LDFLAGS -static-libstdc++ -static-libgcc"
 LDFLAGS="$LDFLAGS -lSDL -lSDL_mixer -lpdl -lGLES_CM -lpng12 -lz -llua -lm"
 
 # Create build directory
