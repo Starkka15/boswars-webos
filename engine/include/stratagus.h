@@ -133,7 +133,11 @@
 --  General
 ----------------------------------------------------------------------------*/
 #ifndef STRATAGUS_LIB_PATH
+#ifdef __webos__
+#define STRATAGUS_LIB_PATH  "/media/cryptofs/apps/usr/palm/applications/com.boswars.game"
+#else
 #define STRATAGUS_LIB_PATH  "."      /// Where to find the data files
+#endif
 #endif
 
 #ifndef STRATAGUS_HOME_PATH
