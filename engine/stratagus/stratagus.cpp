@@ -458,6 +458,7 @@ static void PrintHeader(void)
 */
 static int main1(int argc, char **argv)
 {
+	fprintf(stderr, "DEBUG: main1 entered\n"); fflush(stderr);
 	PrintHeader();
 	printf(
 		"\n"
@@ -855,6 +856,8 @@ int main(int argc, char **argv)
 	InitAiModule();
 
 	LoadCcl();
+	fprintf(stderr, "DEBUG: LoadCcl done, calling main1\n");
+	fflush(stderr);
 
 	main1(argc, argv);
 

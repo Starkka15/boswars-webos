@@ -229,10 +229,12 @@ static void InitOpenGLExtensions()
 */
 static void InitOpenGL(void)
 {
+	fprintf(stderr, "DEBUG: InitOpenGL called\n"); fflush(stderr);
 #ifndef __webos__
 	InitOpenGLExtensions();
 #endif
 
+	fprintf(stderr, "DEBUG: Calling glViewport\n"); fflush(stderr);
 	glViewport(0, 0, (GLsizei)Video.Width, (GLsizei)Video.Height);
 	glMatrixMode(GL_PROJECTION);
 	glLoadIdentity();
@@ -453,12 +455,15 @@ void InitVideoSdl(void)
 #endif
 
 #ifdef __webos__
-		// Initialize PDL and load OpenGL ES before SDL
+		// Initialize PDL before SDL
+		fprintf(stderr, "DEBUG: Calling PDL_Init\n"); fflush(stderr);
 		PDL_Init(0);
+		fprintf(stderr, "DEBUG: PDL_Init done, calling PDL_LoadOGL\n"); fflush(stderr);
 		PDL_LoadOGL(PDL_OGL_1_1);
-		SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 1);
+		fprintf(stderr, "DEBUG: PDL_LoadOGL done\n"); fflush(stderr);
 #endif
 
+		fprintf(stderr, "DEBUG: Calling SDL_Init\n"); fflush(stderr);
 		if (SDL_Init(
 #ifdef DEBUG
 				SDL_INIT_NOPARACHUTE |
@@ -468,6 +473,7 @@ void InitVideoSdl(void)
 			fprintf(stderr, "Couldn't initialize SDL: %s\n", SDL_GetError());
 			exit(1);
 		}
+		fprintf(stderr, "DEBUG: SDL_Init done\n"); fflush(stderr);
 
 		// Clean up on exit
 
@@ -492,8 +498,16 @@ void InitVideoSdl(void)
 	// Force fullscreen 1024x768 on webOS TouchPad
 	Video.Width = 1024;
 	Video.Height = 768;
+	Video.Depth = 0;
 	Video.FullScreen = 1;
 	UseOpenGL = true;
+	// Set GL attributes AFTER SDL_Init, BEFORE SDL_SetVideoMode (like Abuse)
+	SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, 1);
+	SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
+	SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 6);
+	SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
+	SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 16);
+	SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
 	flags |= SDL_FULLSCREEN | SDL_OPENGL;
 #else
 	if (Video.FullScreen) {
@@ -509,6 +523,7 @@ void InitVideoSdl(void)
 	}
 #endif
 
+	fprintf(stderr, "DEBUG: Calling SDL_SetVideoMode %dx%d\n", Video.Width, Video.Height); fflush(stderr);
 	TheScreen = SDL_SetVideoMode(Video.Width, Video.Height, Video.Depth, flags);
 	if (TheScreen && (TheScreen->format->BitsPerPixel != 16 &&
 			TheScreen->format->BitsPerPixel != 32)) {
@@ -520,6 +535,7 @@ void InitVideoSdl(void)
 			Video.Width, Video.Height, Video.Depth, SDL_GetError());
 		exit(1);
 	}
+	fprintf(stderr, "DEBUG: SDL_SetVideoMode done\n"); fflush(stderr);
 
 	Video.FullScreen = (TheScreen->flags & SDL_FULLSCREEN) ? 1 : 0;
 	Video.Depth = TheScreen->format->BitsPerPixel;
