@@ -179,7 +179,7 @@ end
 -------------------------------------------------------------------------------
 SetFogOfWarGraphics("general/fog.png")
 
-Load("preferences.lua")
+Load("scripts/preferences.lua")
 
 if (preferences == nil) then
   preferences = {
